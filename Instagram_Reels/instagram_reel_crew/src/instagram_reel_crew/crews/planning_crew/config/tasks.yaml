@@ -1,0 +1,28 @@
+planning_task:
+  description: >
+    Create an outline of a plan for leadership Instagram posts. Make sure you create an impactful theme and that the days of the week under that theme have topics that 
+    are relevant to the theme.
+    Every day must be accounted for including Saturday and Sunday.
+    The content of the Instagram posts will be about leadership and should only be leadership and should be inspiring. There should be no repeats for each day.
+  expected_output: >
+    A thorough outline of a plan for leadership Instagram posts.  The plan should be detailed enough where someone can research each theme and post title. 
+    The plan should follow the following format:
+        1. Define the week's theme.
+        2. The day name of the week (e.g. Monday), the Create an outline for a leadership post for each day of the week, you can have up two posts per day.  
+  agent: planner
+
+research_task:
+  description: >
+    Find relevant and impactful leadership quotes and verify their authenticity based on the outline that you will be provided.  You are to provide content for the posts, 
+    but you do not have to worry about writing the final posts. The content needs to match the theme for the week.  You will need to include sources so they can be verified.  
+  expected_output: >
+    A thorough outline of a plan for leadership Instagram posts.  The plan should be detailed enough where someone can research each theme and post title. 
+    The plan should follow the following format:
+    Theme for the week: str - this will be the theme for the week and the posts will be shaped around the theme
+    Then an array of weekdays:
+        DaysOfTheWeek: str - This will be the day of the week for the post, it can only be Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday.
+        title: str - This will be the title of the post (e.g. How to be a servant leader).
+        sources: List[str] - This will be a list of the sources and where they are located.  If you used a web page then you need to list the URL here.
+
+    YOU MUST MATCH THE THEME OF THE WEEK and must have a post for each day of the week.
+  agent: researcher
