@@ -1,8 +1,10 @@
 #!/usr/bin/env python
+import json
 from pydantic import BaseModel
 from crewai.flow.flow import Flow, listen, start
 from crewai import LLM
 from .crews.planning_crew.planning_crew import PlanningCrew
+from .crews.writing_crew.writing_crew import WritingCrew
 
 import os
 from langtrace_python_sdk import langtrace
@@ -24,9 +26,24 @@ class InstagramFlow(Flow):
     def generate_posts(self, plan):
         print(f"Generating content, the theme of week is {plan.theme}")
         final_content = []
+        
         for week in plan.DaysOfTheWeek:
-            print(week)
-           
+            post_inputs = week.dict()
+            post_inputs["theme"] = plan.theme
+            weekdayContent = WritingCrew().crew().kickoff(post_inputs).json
+            #print(f"Day of the week - {week.DayOfTheWeek}")
+            print(weekdayContent)
+            final_content.append(weekdayContent)
+        return final_content
+    
+    @listen(generate_posts)
+    def save_final(self, content):
+        print("printing final posts")
+        output_dir = "output"
+       
+        os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
+        with open(os.path.join(output_dir, "final_content.json"), "w", encoding='utf-8') as f:
+            json.dump(content, f, ensure_ascii=False, indent=4)
 def kickoff():
     poem_flow = InstagramFlow()
     poem_flow.kickoff()

@@ -8,7 +8,7 @@ planning_task:
     A thorough outline of a plan for leadership Instagram posts.  The plan should be detailed enough where someone can research each theme and post title. 
     The plan should follow the following format:
         1. Define the week's theme.
-        2. The day name of the week (e.g. Monday), the Create an outline for a leadership post for each day of the week, you can have up two posts per day.  
+        2. The day name of the week (e.g. Monday), then create an outline for a leadership post for each day of the week.
   agent: planner
 
 research_task:
@@ -22,6 +22,7 @@ research_task:
     Then an array of weekdays:
         DaysOfTheWeek: str - This will be the day of the week for the post, it can only be Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday.
         title: str - This will be the title of the post (e.g. How to be a servant leader).
+        summary: str - This is the summary of what your research came up with on the post.
         sources: List[str] - This will be a list of the sources and where they are located.  If you used a web page then you need to list the URL here.
 
     YOU MUST MATCH THE THEME OF THE WEEK and must have a post for each day of the week.
