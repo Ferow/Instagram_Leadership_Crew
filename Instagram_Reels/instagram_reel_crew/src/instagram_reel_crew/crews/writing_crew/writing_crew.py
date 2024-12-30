@@ -20,47 +20,50 @@ class Weekday(BaseModel):
     title: str
     summary: str
     sources: List[str]
+    posttext: str
+    hashtags: str
+    imageprompt: str
     
 class InstagramPlan(BaseModel):
     DaysOfTheWeek: List[Weekday]
     theme: str
     
 @CrewBase
-class PlanningCrew():
-	"""Planning Crew"""
+class WritingCrew():
+	"""Writing Crew"""
 
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
 
 	@agent
-	def planner(self) -> Agent:
+	def content_writer(self) -> Agent:
 		return Agent(
-			config=self.agents_config['planner'],
+			config=self.agents_config['content_writer'],
    			verbose=True,
 			llm=agent_llm
 		)
   
-	@agent
-	def researcher(self) -> Agent:
-		return Agent(
-			config=self.agents_config['researcher'],
-   			tools=[SerperDevTool()], # Example of custom tool, loaded on the beginning of file
-   			verbose=True,
-			llm=agent_llm
-		)
+	#@agent
+	#def AI_prompt_engineer(self) -> Agent:
+	#	return Agent(
+	#		config=self.agents_config['AI_prompt_engineer'],
+    #			verbose=True,
+	#			llm=agent_llm
+	#	)
 
 	@task
 	def research_task(self) -> Task:
 		return Task(
-			config=self.tasks_config['planning_task'],
+			config=self.tasks_config['post_writing'],
+   			output_json=InstagramPlan
 		)
   
-	@task
-	def research_task(self) -> Task:
-		return Task(
-			config=self.tasks_config['research_task'],
-			output_pydantic=InstagramPlan
-		)
+	#@task
+	#def research_task(self) -> Task:
+	#	return Task(
+	#		config=self.tasks_config['research_task'],
+	#		output_pydantic=InstagramPlan
+	#	)
 
 	@crew
 	def crew(self) -> Crew:
@@ -70,4 +73,5 @@ class PlanningCrew():
 			tasks=self.tasks, # Automatically created by the @task decorator
 			process=Process.sequential,
 			verbose=True,
+			
 		)
