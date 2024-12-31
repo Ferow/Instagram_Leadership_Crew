@@ -42,7 +42,7 @@ class InstagramFlow(Flow):
         output_dir = "output"
        
         os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
-        with open(os.path.join(output_dir, "final_content.json"), "w", encoding='utf-8') as f:
+        with open(os.path.join(output_dir, "final_content.json"), "w") as f:
             json.dump(content, f, ensure_ascii=False, indent=4)
 def kickoff():
     poem_flow = InstagramFlow()

@@ -43,27 +43,26 @@ class WritingCrew():
 			llm=agent_llm
 		)
   
-	#@agent
-	#def AI_prompt_engineer(self) -> Agent:
-	#	return Agent(
-	#		config=self.agents_config['AI_prompt_engineer'],
-    #			verbose=True,
-	#			llm=agent_llm
-	#	)
+	@agent
+	def AI_prompt_engineer(self) -> Agent:
+		return Agent(
+			config=self.agents_config['AI_prompt_engineer'],
+    			verbose=True,
+				llm=agent_llm
+		)
 
 	@task
-	def research_task(self) -> Task:
+	def post_writing_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['post_writing'],
-   			output_json=InstagramPlan
 		)
   
-	#@task
-	#def research_task(self) -> Task:
-	#	return Task(
-	#		config=self.tasks_config['research_task'],
-	#		output_pydantic=InstagramPlan
-	#	)
+	@task
+	def prompt_writing_task(self) -> Task:
+		return Task(
+			config=self.tasks_config['prompt_writing'],
+			output_json=InstagramPlan
+		)
 
 	@crew
 	def crew(self) -> Crew:
