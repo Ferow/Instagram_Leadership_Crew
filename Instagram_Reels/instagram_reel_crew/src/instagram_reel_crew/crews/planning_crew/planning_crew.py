@@ -3,6 +3,7 @@ from crewai.project import CrewBase, agent, crew, task
 from pydantic import BaseModel
 from typing import List
 from crewai_tools import SerperDevTool
+from instagram_reel_crew.tools.sqlserver_search_tool import SqlServerSearchTool
 
 import os
 from dotenv import load_dotenv
@@ -15,15 +16,15 @@ agent_llm = LLM(
 	api_key = os.getenv("FAKE_KEY")
 )
 
-class Weekday(BaseModel):
-    DayOfTheWeek: str
+class Posts(BaseModel):
+    theme: str
+    PostNumber: str
     title: str
     summary: str
     sources: List[str]
     
 class InstagramPlan(BaseModel):
-    DaysOfTheWeek: List[Weekday]
-    theme: str
+    Posts: List[Posts]
     
 @CrewBase
 class PlanningCrew():
@@ -49,6 +50,14 @@ class PlanningCrew():
 			llm=agent_llm
 		)
 
+	#@agent
+	#def database_engineer(self) -> Agent:
+	#	return Agent(
+	#		config=self.agents_config['database_engineer'],
+	#   		verbose=True,
+	#		llm=agent_llm
+	#	)
+  
 	@task
 	def research_task(self) -> Task:
 		return Task(
@@ -61,6 +70,13 @@ class PlanningCrew():
 			config=self.tasks_config['research_task'],
 			output_pydantic=InstagramPlan
 		)
+  
+	#@task
+	#def database_task(self) -> Task:
+	#	return Task(
+	#		config=self.tasks_config['database_task'],
+	#   		tools=[SqlServerSearchTool()]
+	#	)
 
 	@crew
 	def crew(self) -> Crew:
