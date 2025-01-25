@@ -14,9 +14,10 @@ agent_llm = LLM(
 	model=os.getenv("OLLAMA_MODEL"),
 	api_key = os.getenv("FAKE_KEY")
 )
-
-class Weekday(BaseModel):
-    DayOfTheWeek: str
+    
+class Post(BaseModel):
+    theme: str
+    PostNumber: int
     title: str
     summary: str
     sources: List[str]
@@ -24,9 +25,6 @@ class Weekday(BaseModel):
     hashtags: str
     imageprompt: str
     
-class InstagramPlan(BaseModel):
-    DaysOfTheWeek: List[Weekday]
-    theme: str
     
 @CrewBase
 class WritingCrew():
@@ -61,7 +59,7 @@ class WritingCrew():
 	def prompt_writing_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['prompt_writing'],
-			output_json=InstagramPlan
+			output_json=Post
 		)
 
 	@crew

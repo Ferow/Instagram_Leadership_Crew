@@ -1,32 +1,33 @@
 post_writing:
   description: >
     Review the {theme} to ensure the post aligns with its overarching message.
-    Focus on the {title} and {summary} to guide the tone and direction of the post.
+    Focus on the {title} and {summary} and {mood} to guide the tone and direction of the post.
     
     Write the Post:
-    Create a caption that highlights the day’s subject in an engaging and relatable tone.
+    Create a caption that highlights the day's subject in an engaging and relatable {mood} tone.
     Integrate the research from sources seamlessly into the caption to enhance credibility.
-    Ensure the post ties back to the weekly theme and creates a cohesive narrative with other posts for the week.
+    Ensure the post ties back to the theme of {theme} and creates a cohesive narrative with other posts in the grouping.
     Include a call-to-action (e.g., asking questions, inviting comments, or encouraging sharing).
 
     Generate Hashtags:
-    Identify 15–20 hashtags relevant to the post’s content and the weekly theme.
+    Identify 15-20 hashtags relevant to the post's content and the weekly theme.
     Use a mix of popular, niche, and branded hashtags to maximize visibility and attract the target audience.
 
   expected_output: >
     You will return the output in a json file.  The file will be well-structured and will have the format:
-    DayOfTheWeek: str - this is the {DayOfTheWeek} for the post.
+    PostNumber: int - this is the {PostNumber} for the post.
+    theme: str which will be {theme}
     title: str which will be {title}
     summary: str which will be {summary}
     sources: str which will be {sources}
     posttext: str this will be the post that you create for the day of the week
-    Hashtags: List[str] which will be the list of hashtags for the post.
+    Hashtags: an array of strings which will be the list of hashtags for the post.
   agent: content_writer
 
 prompt_writing:
    description: >
-      Using the {theme}, {title} and Instagram post content, you will craft detailed and effective prompts for AI image and video generators. 
-      The goal is to create visuals that complement the post's theme, engage the audience, and visually reinforce the post’s message.
+      Using the theme, title and Instagram post content, you will craft detailed and effective prompts for AI image and video generators. 
+      The goal is to create visuals that complement the post's theme, engage the audience, and visually reinforce the post's message.
 
       You will use the following information to guide your prompts: 
         Theme: {theme}
@@ -48,18 +49,19 @@ prompt_writing:
           Ensure the prompt is tailored for the intended for the Instragram platform format (e.g. vertical for reels or stories).
       
       Validate Brand Cohesion:
-        Align visuals with the brand’s aesthetic and message to ensure consistency.
+        Align visuals with the brand's aesthetic and message to ensure consistency.
         Consider integrating subtle branding elements (e.g., colors, logo placement).
    expected_output: >
      You will return the output in a json file.  The file will be well-structured and will have the format:
-        DayOfTheWeek: str - this is the {DayOfTheWeek} for the post.
+        theme: str which will be {theme}
+        PostNumber: int - this is the {PostNumber} for the post.
         title: str which will be {title}
         summary: str which will be {summary}
         sources: str which will be {sources}
         posttext: str this will be the post that you create for the day of the week
-        hashtags: List[str] which will be the list of hashtags for the post.
+        hashtags: array of strings which will be the list of hashtags for the post.
         imageprompt: str which will be the image prompt that you created.
 
-     YOU MUST MATCH THE THEME and TITLE OF THE POST WITH THE DAY.
+     YOU MUST MATCH THE THEME and TITLE OF THE POST WITH EACH POST NUMBER.
    agent: AI_prompt_engineer
 

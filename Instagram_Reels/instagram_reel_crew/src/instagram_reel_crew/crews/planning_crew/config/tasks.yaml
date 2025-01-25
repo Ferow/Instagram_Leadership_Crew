@@ -1,29 +1,50 @@
 planning_task:
   description: >
-    Create an outline of a plan for leadership Instagram posts. Make sure you create an impactful theme and that the days of the week under that theme have topics that 
-    are relevant to the theme.
-    Every day must be accounted for including Saturday and Sunday.
-    The content of the Instagram posts will be about leadership and should only be leadership and should be inspiring. There should be no repeats for each day.
+    Create an outline of a plan for leadership Instagram posts. Make sure you create an impactful theme and that you create {number_of_posts} in the outline with that theme.
+    The title for each post should be relevant to the theme. You must account for {number_of_posts} no more and no less.
+    The content of the Instagram posts will be about leadership and should only be leadership and should be inspiring. There should be no repeats for each post within the theme.
   expected_output: >
     A thorough outline of a plan for leadership Instagram posts.  The plan should be detailed enough where someone can research each theme and post title. 
     The plan should follow the following format:
-        1. Define the week's theme.
-        2. The day name of the week (e.g. Monday), then create an outline for a leadership post for each day of the week.
+        1. Define the group's theme.
+        2. The number of the post (e.g. 1) title for the post that content will be created for (e.g. How to be a servant leader)
   agent: planner
 
 research_task:
   description: >
     Find relevant and impactful leadership quotes and verify their authenticity based on the outline that you will be provided.  You are to provide content for the posts, 
-    but you do not have to worry about writing the final posts. The content needs to match the theme for the week.  You will need to include sources so they can be verified.  
+    but you do not have to worry about writing the final posts. The content needs to match the theme for the group of posts.  You will need to include sources so they can 
+    be verified.  
   expected_output: >
     A thorough outline of a plan for leadership Instagram posts.  The plan should be detailed enough where someone can research each theme and post title. 
     The plan should follow the following format:
-    Theme for the week: str - this will be the theme for the week and the posts will be shaped around the theme
-    Then an array of weekdays:
-        DaysOfTheWeek: str - This will be the day of the week for the post, it can only be Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday.
+    There must be {number_of_posts} posts in the array.  Each post will have the following format:
+        Theme: str - This will be the theme for the group of posts.
+        PostNumber: int - This will be the numerical order of the posts being shown.
         title: str - This will be the title of the post (e.g. How to be a servant leader).
         summary: str - This is the summary of what your research came up with on the post.
         sources: List[str] - This will be a list of the sources and where they are located.  If you used a web page then you need to list the URL here.
-
-    YOU MUST MATCH THE THEME OF THE WEEK and must have a post for each day of the week.
+  
+    YOU MUST MATCH THE THEME OF THE Group and the number of posts created must be {number_of_posts}. 
   agent: researcher
+
+# database_task:
+#   description: >
+#     Your job is to make sure that the database is up to date by checking to see if a new theme needs to be added to the database and adding that to the database if necesary.
+#     You *MUST* pass the parameters correctly or you will receive an error and then we cannot save the data to our database.  It is very important that if you do not understand
+#     what to pass that you notify everyone so we can stop the process.
+
+#     You will first look for the first available Monday date by taking the current date and determining what the next Monday is in the calendar.  In the Sql Server Search tool 
+#     you will pass the following arguments:
+
+#     procedure_name: str - The value will be dbo.WeeklyThemes_create_update_weekly_theme
+#     parameters: dict - The values in this dictionary will be the following:
+#       @WeekStart - This is the date of the first day of the week in the format of YYYY-MM-DD
+#       @theme - This is the theme for the week.  It will be a string and you will get this from the planner
+#       @approved - This is a bit field and you will set this to 1
+
+#     You MUST be exact and you MUST pass the parameters correctly or you will receive an error and then we cannot save the data to our database.
+#   expected_output: >
+#     A response that either the database has been updated or it has not.
+#   agent: database_engineer
+
